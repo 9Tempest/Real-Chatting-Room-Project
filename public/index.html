@@ -13,10 +13,10 @@
 <body class="bg-blur">
   <!-- login box -->
   <div class="login_box">
-    <div class="title">用户登录</div>
-    <p>用户名</p>
+    <div class="title">Login</div>
+    <p>User Name</p>
     <input type="text" placeholder="请输入用户名" id="username">
-    <p>选择头像</p>
+    <p>Choose your avatar!</p>
     <ul class="avatar" id="login_avatar">
       <li class="now"><img src="images/avatar01.jpg" alt=""  ondragstart="return false"></li>
       <li><img src="images/avatar11.jpg" alt="" ondragstart="return false"></li>
@@ -33,7 +33,7 @@
   </div>
   <!-- chat container -->
   <div class="container  invisible">
-    <!-- 左侧用户列表 -->
+    <!-- lhs users -->
     <div class="user-list">
       <div class="header">
         <div class="avatar">
@@ -46,21 +46,14 @@
       <div class="title">
         <h3>Users</h3>
       </div>
-      <!-- <div>
-        <li class="user active">
-          <div class="avatar"><img src="images/avatar01.jpg" alt=""></div>
-          <div class="name">群聊</div>
-        </li>
-      </div> -->
       <ul id="listusers">
         
       </ul>
     </div>
-    <!-- 聊天主窗口 -->
+    <!-- main chat box -->
     <div class="box">
       <div class="box-hd">
-        <!-- <div id="chatName"></div> -->
-        <!-- <h3>群聊(<span id="userCount">99</span>)</h3> -->
+  
         <h3 id="chatName">Group Chatting</h3>
       </div>
       <div class="box-bd" id="chattingbox">
@@ -92,9 +85,9 @@
           </div>
         </div> -->
       </div>
-      <!-- 聊天窗口底部 -->
+      <!-- bottom side of the chat box -->
       <div class="box-ft">
-        <!-- 工具栏 -->
+        <!-- tool bar -->
         <div class="toolbar">
           <a class="face" href="javascript:;" title="表情"></a>
           <!-- <a class="screen-cut" href="javascript:;" title="暂不支持截屏"></a> -->
@@ -102,12 +95,12 @@
             <label for="file"></label><input type="file" id="file" style="display:none;"> 
           </a>
         </div>
-        <!-- 内容输入区 -->
+        <!-- textarea -->
         <div class="content">
-          <!-- div添加contenteditable即可编辑 -->
-          <textarea name="" id="content" class="text" contenteditable></textarea>
+          <!-- add contenteditable to view the emoji -->
+          <div name="" id="content" class="text" contenteditable></div>
         </div>
-        <!-- 发送按钮 -->
+        <!-- submit -->
         <div class="action">
           <span class="desc">Press Ctrl+Enter Send</span>
           <a class="btn-send" id="btn-send" href="javascript:;">Send</a>
@@ -118,5 +111,7 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="js/jquery.js"></script>
   <script src="js/index.js"></script>
+  <script src="lib/jquery-mCustomScrollbar/script/jquery.mCustomScrollbar.min.js"></script>
+  <script src="lib/jquery-emoji/js/jquery.emoji.min.js"></script>
 </body>
 </html>

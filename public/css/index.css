@@ -4,6 +4,7 @@
 }
 html {
   height: 100%;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 body {
   width: 100%;
@@ -198,6 +199,8 @@ body::after {
   border-top: 1px solid #d6d6d6;
   width: 100%;
   height: 180px;
+  position: relative;
+  bottom: -130px;
   /* overflow: hidden; */
 }
 .box-ft .toolbar {

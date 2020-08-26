@@ -71,6 +71,20 @@ io.on('connect', function(socket){
         socket.emit('receivePersonalMsg', data)
     })
 
+    socket.on('sendImg', data=>{
+        io.emit('receiveImage', data)
+    })
+
+    socket.on('sendPersonalImg',data=>{
+        let user = client_sockets.find(item => item.username === data.targetname)
+        io.to(user.socketid).emit('receivePersonalImg',{
+            username: data.username,
+            img: data.img,
+            avatar: data.avatar,
+            targetname: data.username
+        })
+        socket.emit('receivePersonalImg', data)
+    })
 
 })
 
