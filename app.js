@@ -3,7 +3,7 @@ var server = require('http').Server(app)
 var io = require('socket.io')(server)
 
 const users = []
-
+const client_sockets = []
 server.listen(3000, ()=>{
     console.log('server set up!')
 })
@@ -27,7 +27,7 @@ io.on('connect', function(socket){
         }   else {
             users.push(data)
             socket.emit('loginSuccess', data)
-            console.log('login succeeded!')
+            console.log('login succeeded!'+socket.id)
             //io.emit == broadcast, socket.emit == tell the current client
             io.emit('addUser', data)
 
@@ -35,6 +35,10 @@ io.on('connect', function(socket){
 
             socket.username = data.username
             socket.avatar = data.avatar
+            client_sockets.push({
+                username: socket.username,
+                socketid: socket.id
+            })
         }
     })
 
@@ -53,7 +57,24 @@ io.on('connect', function(socket){
         console.log(data)
         io.emit('receiveMsg', data)
     })
+
+    socket.on('sendPersonalMsg', data=>{
+        console.log(data)
+        let user = client_sockets.find(item => item.username === data.targetname)
+        if (user) console.log("haha")
+        io.to(user.socketid).emit('receivePersonalMsg',{
+            username: data.username,
+            msg: data.msg,
+            avatar: data.avatar,
+            targetname: data.username
+        })
+        socket.emit('receivePersonalMsg', data)
+    })
+
+
 })
+
+
 
 
 

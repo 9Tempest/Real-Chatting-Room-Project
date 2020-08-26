@@ -42,7 +42,7 @@ socket.on('loginSuccess', data=>{
 })
 
 socket.on('addUser', data=>{
-    $('.box-bd').append(`
+    $('#groupchatting').append(`
         <div class="system">
             <p class="message_system">
                 <span class="content">${data.username} entered the chatting room</span>
@@ -55,7 +55,7 @@ socket.on('userList', (users, index)=>{
     $('#chatName').text('Group Chatting('+users.length+')')
     $('.user-list ul').html('')
     $('.user-list ul').append(`
-        <li class="user">
+        <li class="user selected">
             <div class="avatar"><img src="images/group.jpg" alt=""></div>
             <div class="name">Group Chatting</div>
         </li>
@@ -68,16 +68,42 @@ socket.on('userList', (users, index)=>{
             </li>
         `)
     })
+    $('#listusers li').on('click', function(){
+        $(this).addClass('selected').siblings().removeClass('selected')
+        if ($('.selected .name').text() === "Group Chatting"){
+            $('#chatName').text('Group Chatting('+users.length+')')
+            $('#groupchatting').show()
+            $('#groupchatting').siblings().hide()
+        }   else {
+            var str = "#personal_"+$('.selected .name').text()
+            if($(str).length <= 0){
+        
+                var box = document.createElement("div")
+                box.setAttribute("id", "personal_"+$('.selected .name').text())
+                $('#chattingbox').append(box)
+                
+            }
+            $(str).show()
+            $(str).siblings().hide()
+            $('#chatName').text($('.selected .name').text())
+        } 
+    })
 })
 
+
+
+
+
+
 socket.on('delUser', data=>{
-    $('.box-bd').append(`
+    $('#groupchatting').append(`
         <div class="system">
             <p class="message_system">
                 <span class="content">${data.username} left the chatting room</span>
             </p>
         </div>
     `)
+    $('#personal_'+data.username).remove()
 })
 
 $('.btn-send').on('click', ()=>{
@@ -86,16 +112,25 @@ $('.btn-send').on('click', ()=>{
     if (!content){
         return alert('please type some words')
     } 
-    socket.emit('sendMsg', {
-        msg: content,
-        username: username,
-        avatar: avatar
-    })
+    if ($('.selected .name').text() === "Group Chatting"){
+        socket.emit('sendMsg', {
+            msg: content,
+            username: username,
+            avatar: avatar
+        })
+    }   else {
+        socket.emit('sendPersonalMsg', {
+            msg: content,
+            username: username,
+            avatar: avatar,
+            targetname: $('.selected .name').text()
+        })
+    }
 })
 
 socket.on('receiveMsg', data=>{
     if (data.username == username){
-        $('.box-bd').append(`
+        $('#groupchatting').append(`
             <div class="message-box">
                 <div class="my message">
                     <img src="${data.avatar}" alt="" class="avatar">
@@ -108,7 +143,7 @@ socket.on('receiveMsg', data=>{
             </div>
         `)
     }   else {
-        $('.box-bd').append(`
+        $('#groupchatting').append(`
             <div class="message-box">
             <div class="other message">
             <img src="${data.avatar}" alt="" class="avatar">
@@ -121,5 +156,50 @@ socket.on('receiveMsg', data=>{
             </div>
         </div>
         `)
+    }
+})
+
+socket.on('receivePersonalMsg', data=>{
+    console.log("i received the msg")
+    var str = "#personal_"+data.targetname
+    //auto jump to the msg page
+    if($(str).length <= 0){
+        var box = document.createElement("div")
+        box.setAttribute("id", "personal_"+data.targetname)
+        $('#chattingbox').append(box)  
+    }
+
+
+    if (data.username == username){
+        $(str).append(`
+            <div class="message-box">
+                <div class="my message">
+                    <img src="${data.avatar}" alt="" class="avatar">
+                    <div class="content">
+                        <div class="bubble">
+                        <div class="bubble_cont">${data.msg}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `)
+    }   else {
+        $(str).append(`
+            <div class="message-box">
+            <div class="other message">
+            <img src="${data.avatar}" alt="" class="avatar">
+            <div class="nickname">${data.username}</div>
+            <div class="content">
+                <div class="bubble">
+                <div class="bubble_cont">${data.msg}</div>
+                </div>
+            </div>
+            </div>
+        </div>
+        `)
+    }
+    if ($('.selected .name')[0].innerText != data.targetname){
+        $(str).hide()
+        alert("You have a message from: " + data.targetname)
     }
 })

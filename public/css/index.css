@@ -293,6 +293,9 @@ body::after {
   border-left-width: 4px
 }
 
+.selected {
+  background: linear-gradient(to right, #2e3238 , #fff);
+}
 
 .box-bd .message-box .my .avatar, .box-bd .message-box .my .content{
   float: right;
