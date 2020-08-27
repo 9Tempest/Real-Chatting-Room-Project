@@ -1,7 +1,7 @@
 var app = require('express')()
 var server = require('http').Server(app)
 var io = require('socket.io')(server)
-var PORT = process.env.PORT || 3000
+var PORT = process.env.PORT 
 const users = []
 const client_sockets = []
 server.listen(PORT, ()=>{
