@@ -1,12 +1,14 @@
 var app = require('express')()
 var server = require('http').Server(app)
 var io = require('socket.io')(server)
-var PORT = process.env.PORT ||3000
+const PORT = process.env.PORT || 3000
 const users = []
 const client_sockets = []
 server.listen(PORT, ()=>{
     console.log('server set up!')
 })
+
+
 
 app.use(require('express').static('public'))
 
