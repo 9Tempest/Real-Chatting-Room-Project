@@ -2,5 +2,13 @@
   "dependencies": {
     "express": "^4.17.1",
     "socket.io": "^2.3.0"
+  },
+  "name":"app",
+  "engines": {
+    "node": "12.x"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "build": "webpack"
   }
 }
